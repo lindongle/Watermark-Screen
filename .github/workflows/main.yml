@@ -3,9 +3,7 @@ name: Build Watermark-Screen
 on:
   push:
     branches: [main, master]
-  pull_request:
-    branches: [main, master]
-  workflow_dispatch:  # 支持手动触发
+  workflow_dispatch:
 
 jobs:
   build:
@@ -17,17 +15,15 @@ jobs:
       
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
-        with:
-          msbuild-architecture: x64
       
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
       
       - name: Restore NuGet packages
-        run: nuget restore Timer_Implementado.sln
+        run: nuget restore "Timer_Implementado.sln"
       
       - name: Build Release
-        run: msbuild Watermark-Screen.sln /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild "Timer_Implementado.sln" /p:Configuration=Release /p:Platform="Any CPU"
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -35,16 +31,5 @@ jobs:
           name: Watermark-Screen-Release
           path: |
             **/bin/Release/*.exe
-            **/bin/Release/*.dll
             **/bin/Release/*.config
-      
-      - name: Create Release
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            **/bin/Release/*.exe
             **/bin/Release/*.dll
-            **/bin/Release/*.config
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
