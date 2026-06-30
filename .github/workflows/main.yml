@@ -24,7 +24,7 @@ jobs:
         uses: NuGet/setup-nuget@v2
       
       - name: Restore NuGet packages
-        run: nuget restore Watermark-Screen.sln
+        run: nuget restore Timer_Implementado.sln
       
       - name: Build Release
         run: msbuild Watermark-Screen.sln /p:Configuration=Release /p:Platform="Any CPU"
